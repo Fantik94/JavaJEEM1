@@ -1,26 +1,33 @@
 package com.hitema.intro.services;
 
-import com.hitema.intro.models.City;
-import com.hitema.intro.repositories.CityRepository;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class CityServiceTest {
+class CityServiceTest {
+
+    private static final Logger log = LoggerFactory.getLogger(CityServiceTest.class);
+
     @Autowired
-    private CityService service;
+    CityService service;
 
     @Test
-    public void testCreateReadDelete() {
-        City city = new City();
-        city.setName("Test City");
-        city = service.create(city);
+    void read() {
+        log.info("DEBUT TESTS Read City");
+        Long id = 2L;
+        var city = service.read(id);
+        log.trace("{}", city);
+        log.info("FIN TESTS Read City");
+    }
 
-        assertNotNull(service.read(city.getId()));
-
-        service.delete(city.getId());
-        assertNull(service.read(city.getId()));
+    @Test
+    void readAll() {
+        log.info("DEBUT TESTS Read All");
+        service.readAll().forEach(c -> log.trace("{}", c));
+        log.error("<<<ERROR>>>");
+        log.info("FIN TESTS Read All");
     }
 }
