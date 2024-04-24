@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -20,6 +21,8 @@ public class CountryServiceImpl implements CountryService{
 
     @Override
     public Country create(Country country) {
+        if ( country.getLastUpdate() == null)
+            country.setLastUpdate(LocalDateTime.now());
         return repository.save(country);
     }
 
@@ -30,6 +33,7 @@ public class CountryServiceImpl implements CountryService{
 
     @Override
     public Country update(Country country) {
+        country.setLastUpdate(LocalDateTime.now());
         return repository.save(country);
     }
 

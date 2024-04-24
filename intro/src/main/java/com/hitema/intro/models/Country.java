@@ -1,9 +1,11 @@
 package com.hitema.intro.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
     @Table(name = "country")
@@ -16,9 +18,22 @@ public class Country {
     @Column(name="country")
     private String name;
 
+
+    @OneToMany(mappedBy = "country")
+        @JsonIgnoreProperties(value = { "country" })
+    private List<City> cities;
+
+
     @Column(name="last_update")
     private LocalDateTime lastUpdate;
 
+    public List<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<City> cities) {
+        this.cities = cities;
+    }
 
     public Long getId() {
         return id;
